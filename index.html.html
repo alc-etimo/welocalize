@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ariane Lesnyak · Linguistic QA & AI Quality Control | Welocalize</title>
+    
+    <!-- Google Fonts - CORRETAMENTE INSTALADAS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+            background-color: #fff;
+            color: #1a1a1a;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Navbar - Hide on scroll down */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 16px 40px;
+            z-index: 10000;
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        .navbar.hide { transform: translateY(-100%); }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Custom Logo: "ariane" with gradient */
+        .logo-wrapper { display: flex; flex-direction: column; }
+        .custom-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+        .custom-logo .ar, .custom-logo .e { color: #000; }
+        .custom-logo .ian {
+            background: linear-gradient(180deg, #0571a4 0%, #01d184 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .subname {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            color: #000;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Nav Menu */
+        .nav-menu { display: flex; align-items: center; gap: 32px; }
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn {
+            font-size: clamp(14px, 2.97333px + 16px, 16px);
+            font-weight: 600;
+            color: #000;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Noto Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dropbtn i { font-size: 12px; transition: transform 0.2s; }
+        .dropdown:hover .dropbtn i { transform: rotate(180deg); }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 12px 0;
+            top: 35px;
+            left: 0;
+            z-index: 10001;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            color: #333;
+            padding: 10px 24px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Noto Sans', sans-serif;
+        }
+        .dropdown-content a:hover { background-color: #f5f5f5; }
+        .contact-btn {
+            background-color: #01e691;
+            color: #000;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+        .contact-btn:hover { filter: brightness(1.2); }
+
+        /* Hero 50/50 */
+        .hero-section { display: flex; min-height: 90vh; margin-top: 80px; }
+        .hero-left {
+            flex: 1;
+            background-color: #077ab5;
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero-left h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 47px;            
+            letter-spacing: 0.5px;
+            color: white;
+            margin-bottom: 24px;
+            line-height: 50.6px;
+        }
+        .hero-left p {
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 300;
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            line-height: 30.6px;
+            letter-spacing: 0.5px;
+            max-width: 90%;
+        }
+        .hero-right {
+            flex: 1;
+            background: #eef2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Stats Section */
+        .stats-section { display: flex; background-color: #e8eef2; }
+        .stats-left { flex: 1; padding: 70px 60px; display: flex; flex-direction: column; justify-content: center; }
+        .stats-left h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2.6rem;
+            color: #1a2a3a;
+            margin-bottom: 24px;
+        }
+        .stats-left p {
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #2c3e4e;
+            line-height: 1.6;
+        }
+        .stats-left p strong {
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 700;
+        }
+        .stats-right { flex: 1; padding: 60px 40px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-block {
+            background-color: #077bb5;
+            padding: 28px 20px;
+            border-radius: 24px;
+            color: white;
+        }
+        .stat-number { 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.8rem; 
+            margin-bottom: 8px; 
+        }
+        .stat-label { 
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+            font-size: 0.85rem; 
+            opacity: 0.9; 
+        }
+        .wide-block { grid-column: span 2; background-color: #077bb5; border-radius: 24px; padding: 28px 20px; }
+        .wide-block .stat-number, .wide-block .stat-label { color: white; }
+
+        /* Clients Marquee */
+        .clients-section { background: white; padding: 60px 0; overflow: hidden; }
+        .marquee { width: 100%; overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: scroll 25s linear infinite; }
+        .marquee-content img {
+            height: 45px;
+            margin: 0 45px;
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: 0.2s;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Black Contact Section */
+        .black-contact { background-color: #000; padding: 70px 0; }
+        .contact-split {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            border-left: 1px solid white;
+        }
+        .contact-left {
+            width: 30%;
+            padding: 0 40px;
+            color: white;
+        }
+        .contact-left .custom-logo-white {
+            font-family: 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+        .contact-left .custom-logo-white .ar,
+        .contact-left .custom-logo-white .e { color: white; }
+        .contact-left .custom-logo-white .ian {
+            background: linear-gradient(180deg, #0571a4 0%, #01d184 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .address { 
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+            font-size: 14px; 
+            line-height: 1.7; 
+            margin-top: 20px; 
+        }
+        .address a {
+            color: white;
+            text-decoration: none;
+        }
+        .address a:hover {
+            text-decoration: underline;
+        }
+        .contact-right {
+            width: 70%;
+            padding: 0 40px;
+            color: white;
+        }
+        .contact-right h3 { 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem; 
+            margin-bottom: 28px; 
+        }
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 30px;
+        }
+        .keywords-grid span {
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+            font-size: 0.95rem;
+            padding-bottom: 4px;
+        }
+
+        /* Case Studies Section */
+        .cases-section { background: white; padding: 80px 0; }
+        .cases-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-title { 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-align: center; 
+            font-size: 2.5rem; 
+            margin-bottom: 60px; 
+        }
+        .case-card {
+            background: #ffffff;
+            border-radius: 32px;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border: 1px solid #eef2f5;
+        }
+        .case-card:hover { transform: translateY(-5px); box-shadow: 0 20px 35px rgba(0,0,0,0.1); }
+        .case-inner { padding: 40px; }
+        .problem-solution-row {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .problem-box, .solution-box { flex: 1; }
+        .problem-box h4, .solution-box h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .problem-box, .solution-box {
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+        }
+        .ba-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 45px;
+        }
+        .before-box, .after-box {
+            flex: 1;
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 28px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #ccc;
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+        }
+        .before-box:hover, .after-box:hover { transform: scale(1.02); background: #f1f5f9; }
+        .before-box strong, .after-box strong { 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            display: block; 
+            margin-bottom: 15px; 
+            font-size: 1.2rem; 
+        }
+        .metrics-bar-container {
+            background: #eef2f5;
+            border-radius: 24px;
+            padding: 28px 32px;
+            margin-top: 20px;
+        }
+        .metric-item-bar { margin-bottom: 20px; }
+        .metric-header { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 8px; 
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 600; 
+        }
+        .bar-bg {
+            background-color: #e0e7ed;
+            border-radius: 30px;
+            height: 12px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            background: linear-gradient(90deg, #0571a4, #01d184);
+            width: 0%;
+            height: 100%;
+            border-radius: 30px;
+            transition: width 1.2s cubic-bezier(0.22, 0.97, 0.36, 1);
+        }
+
+        footer {
+            background-color: #848484;
+            padding: 20px 0;
+            border-top: 1px solid white;
+        }
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 40px;
+            color: white;
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 1000px) {
+            .hero-section, .stats-section { flex-direction: column; }
+            .contact-split { flex-direction: column; border-left: none; }
+            .contact-left, .contact-right { width: 100%; margin-bottom: 40px; }
+            .problem-solution-row, .ba-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <div class="logo-wrapper">
+            <div class="custom-logo">
+                <span class="ar">ar</span><span class="ian">ian</span><span class="e">e</span>
+            </div>
+            <div class="subname">LESNYAK</div>
+        </div>
+        <div class="nav-menu">
+            <div class="dropdown">
+                <button class="dropbtn">CASE STUDIES <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#case1">Content Governance & AI QA</a>
+                    <a href="#case2">Linguistic QA for AI Training</a>
+                    <a href="#case3">Team Training & Error Reduction</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">ABOUT ME <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#stats">Experience & Impact</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <button class="contact-btn" id="contactBtn">Contact Me</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero-section">
+    <div class="hero-left">
+        <h1>Your AI speaks Portuguese. But does it speak Brazil?</h1>
+        <p>I'm Ariane Lesnyak, a Portuguese (Brazil) Quality Control Specialist, Content Governance & Linguistic QA Lead. I build enterprise taxonomies, validate AI-generated content, and reduce linguistic inconsistencies by 70%. I help AI systems carry meaning, not just words. Powered by ISO-compliant frameworks and cultural depth.</p>
+    </div>
+    <div class="hero-right">
+        <img src="https://www.welocalize.com/wp-content/uploads/2026/03/Frame-6.png" alt="Welocalize visual">
+    </div>
+</div>
+
+<!-- Stats / Experience Section -->
+<div class="stats-section" id="stats">
+    <div class="stats-left">
+        <h2>For Over 10 Years</h2>
+        <p><strong>Leading organizations work with me to ensure linguistic excellence and AI-ready content.</strong> Today, I'm shaping the future of Portuguese language quality with an AI-first approach, delivering unmatched accuracy and cultural relevance.</p>
+        <p><strong>My approach combines cutting-edge AI validation with deep linguistic expertise</strong> to deliver localized content with efficiency, speed, and precision. I empower global teams to accelerate their AI training and quality control workflows.</p>
+        <p><strong>Content Governance & Linguistic QA Lead @ TeamWorker (Major Telecom)</strong> · Built enterprise taxonomy (700 → 2,700+ terms) from speech analytics corpus of 2M+ monthly interactions, following ISO 25964 thesaurus standards. Validated 10,000+ AI-generated pieces (chatbot, CRM) for grammar, cultural relevance, and HTML rendering → reduced inconsistencies by 70%. Created prompt repository supporting 30,000+ agents, developed style guides and grammar checkers.</p>
+        <p><strong>EN>PT-BR Language QA Reviewer</strong> · Reviewed 1M+ words and 100+ hours of AI-generated audio/text; managed LQA/MTPE projects; annotated multilingual datasets for LLM fine-tuning and preference ranking.</p>
+    </div>
+    <div class="stats-right">
+        <div class="stats-grid">
+            <div class="stat-block"><div class="stat-number">2,700+</div><div class="stat-label">taxonomy terms (ISO 25964)</div></div>
+            <div class="stat-block"><div class="stat-number">70%</div><div class="stat-label">error reduction (QA framework)</div></div>
+            <div class="stat-block"><div class="stat-number">10K+</div><div class="stat-label">AI content validated</div></div>
+            <div class="stat-block"><div class="stat-number">30K+</div><div class="stat-label">agents supported</div></div>
+            <div class="wide-block"><div class="stat-number" style="color:white">95%</div><div class="stat-label" style="color:white">pre-delivery issue detection</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- Clients Marquee (placeholders) -->
+<div class="clients-section">
+    <div class="marquee">
+        <div class="marquee-content">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Claro" alt="Claro">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Adobe" alt="Adobe">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Telefonica" alt="Telefonica">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=IBM" alt="IBM">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Netflix" alt="Netflix">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=AWS" alt="AWS">
+        </div>
+        <div class="marquee-content">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Claro" alt="Claro">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Adobe" alt="Adobe">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Telefonica" alt="Telefonica">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=IBM" alt="IBM">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=Netflix" alt="Netflix">
+            <img src="https://placehold.co/120x40/e0e0e0/909090?text=AWS" alt="AWS">
+        </div>
+    </div>
+</div>
+
+<!-- Case Studies -->
+<div class="cases-section" id="case1">
+    <div class="cases-container">
+        <h2 class="section-title">Case Studies · Quality Control & Linguistic AI</h2>
+
+        <!-- CASE 1: Content Governance & AI Quality -->
+        <div class="case-card">
+            <div class="case-inner">
+                <div class="problem-solution-row">
+                    <div class="problem-box"><h4><i class="fas fa-exclamation-triangle"></i> Problem</h4>Fragmented terminology and inconsistent AI-generated content for 30,000+ call center agents. High linguistic error rate, zero-result searches (67%), and lack of standardized QA for chatbot/CRM outputs.</div>
+                    <div class="solution-box"><h4><i class="fas fa-check-circle"></i> Solution</h4>Built enterprise taxonomy (2,700+ terms) following ISO 25964, created prompt repository, implemented QA dashboards and grammar checkers, validated 10,000+ AI pieces.</div>
+                </div>
+                <div class="ba-row">
+                    <div class="before-box"><strong>⬅️ BEFORE</strong><br>❌ 67% zero-result searches<br>❌ 40% terminology inconsistency<br>❌ Manual review only</div>
+                    <div class="after-box"><strong>➡️ AFTER</strong><br>✅ 95% pre-delivery flagging<br>✅ 70% error reduction<br>✅ 30% faster revision cycles</div>
+                </div>
+                <div class="metrics-bar-container">
+                    <div class="metric-item-bar"><div class="metric-header"><span>Error Reduction</span><span>70%</span></div><div class="bar-bg"><div class="bar-fill" data-width="70"></div></div></div>
+                    <div class="metric-item-bar"><div class="metric-header"><span>Terminology Consistency</span><span>92%</span></div><div class="bar-bg"><div class="bar-fill" data-width="92"></div></div></div>
+                    <div class="metric-item-bar"><div class="metric-header"><span>Agent Adoption (Chatbot)</span><span>78%</span></div><div class="bar-bg"><div class="bar-fill" data-width="78"></div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CASE 2: Linguistic QA for AI Training -->
+        <div class="case-card" id="case2">
+            <div class="case-inner">
+                <div class="problem-solution-row">
+                    <div class="problem-box"><h4><i class="fas fa-robot"></i> Problem</h4>AI-generated Portuguese outputs lacked cultural nuance, had grammatical hallucinations, and failed preference ranking for LLM fine-tuning.</div>
+                    <div class="solution-box"><h4><i class="fas fa-language"></i> Solution</h4>Reviewed 1M+ words, annotated tone/intent/actions for 5,000+ hours of audiovisual content, created golden answers and rubrics, reduced hallucinations by 60%.</div>
+                </div>
+                <div class="ba-row">
+                    <div class="before-box"><strong>⬅️ BEFORE</strong><br>⚠️ 35% hallucination rate<br>⚠️ Inconsistent PT-BR tone</div>
+                    <div class="after-box"><strong>➡️ AFTER</strong><br>✨ 92% fluency accuracy<br>✨ Culturally adapted responses</div>
+                </div>
+                <div class="metrics-bar-container">
+                    <div class="metric-item-bar"><div class="metric-header"><span>Fluency Improvement</span><span>92%</span></div><div class="bar-bg"><div class="bar-fill" data-width="92"></div></div></div>
+                    <div class="metric-item-bar"><div class="metric-header"><span>Hallucination Reduction</span><span>60%</span></div><div class="bar-bg"><div class="bar-fill" data-width="60"></div></div></div>
+                    <div class="metric-item-bar"><div class="metric-header"><span>Preference Ranking Accuracy</span><span>88%</span></div><div class="bar-bg"><div class="bar-fill" data-width="88"></div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CASE 3: Team Training & Error Reduction -->
+        <div class="case-card" id="case3">
+            <div class="case-inner">
+                <div class="problem-solution-row">
+                    <div class="problem-box"><h4><i class="fas fa-chalkboard-user"></i> Problem</h4>Recurring linguistic errors across 15+ writers, slow revision cycles (5 days), no standardized style governance, and 20% client complaints.</div>
+                    <div class="solution-box"><h4><i class="fas fa-users"></i> Solution</h4>Led monthly training sessions, created style guides/glossaries, implemented QA dashboards, provided daily structured feedback, reducing revision time by 85% and client complaints by 20%.</div>
+                </div>
+                <div class="ba-row">
+                    <div class="before-box"><strong>⬅️ BEFORE</strong><br>📉 5-day revision cycles<br>📉 60% error recurrence</div>
+                    <div class="after-box"><strong>➡️ AFTER</strong><br>⚡ 1-day revision cycles<br>📈 85% faster corrections</div>
+                </div>
+                <div class="metrics-bar-container">
+                    <div class="metric-item-bar"><div class="metric-header"><span>Revision Time Reduction</span><span>85%</span></div><div class="bar-bg"><div class="bar-fill" data-width="85"></div></div></div>
+                    <div class="metric-item-bar"><div class="metric-header"><span>Client Complaints Drop</span><span>20%</span></div><div class="bar-bg"><div class="bar-fill" data-width="20"></div></div></div>
+                    <div class="metric-item-bar"><div class="metric-header"><span>Team Efficiency Increase</span><span>35%</span></div><div class="bar-bg"><div class="bar-fill" data-width="35"></div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Black Contact Section -->
+<div class="black-contact" id="contact">
+    <div class="contact-split">
+        <div class="contact-left">
+            <div class="custom-logo-white">
+                <span class="ar">ar</span><span class="ian">ian</span><span class="e">e</span>
+            </div>
+            <div class="address">
+                <i class="fas fa-map-marker-alt"></i> São Paulo, Brazil<br>
+                <i class="fas fa-envelope"></i> ariane.etimo@gmail.com<br>
+                <i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/arianelesnyak/" target="_blank">/in/arianelesnyak/</a>
+            </div>
+        </div>
+        <div class="contact-right">
+            <h3>Solutions</h3>
+            <div class="keywords-grid">
+                <span>✓ Quality Control (QC)</span> <span>✓ Linguistic QA</span>
+                <span>✓ AI Training & Evaluation</span> <span>✓ Prompt Engineering</span>
+                <span>✓ Content Moderation</span> <span>✓ MTPE / LQA</span>
+                <span>✓ Taxonomy (ISO 25964)</span> <span>✓ Golden Answers / Rubrics</span>
+                <span>✓ Style Guide Governance</span> <span>✓ Error Analysis & Dashboards</span>
+                <span>✓ Cross-functional Training</span> <span>✓ Cultural Relevance (PT-BR)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <span>©2026 Ariane Lesnyak. Made for Welocalize. All rights reserved.</span>
+        <span><i class="fas fa-check-circle"></i> Quality Control Specialist · Project Lyra</span>
+    </div>
+</footer>
+
+<script>
+    // Hide navbar on scroll down
+    let lastScroll = 0;
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > lastScroll && currentScroll > 100) navbar.classList.add('hide');
+        else navbar.classList.remove('hide');
+        lastScroll = currentScroll;
+    });
+
+    document.getElementById('contactBtn').addEventListener('click', () => {
+        alert("📧 ariane.etimo@gmail.com\n🔗 linkedin.com/in/arianelesnyak/\n✅ Available for Project Lyra - 20h/week");
+    });
+
+    // Animate bars when they come into view
+    const bars = document.querySelectorAll('.bar-fill');
+    const animateBars = () => {
+        bars.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            const rect = bar.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100 && !bar.style.width) {
+                bar.style.width = width + '%';
+            }
+        });
+    };
+    window.addEventListener('scroll', animateBars);
+    window.addEventListener('load', animateBars);
+</script>
+</body>
+</html>
