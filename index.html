@@ -100,9 +100,21 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             border-radius: 16px;
             padding: 12px 0;
-            top: 35px;
+            top: 100%;
             left: 0;
             z-index: 10001;
+            margin-top: 0;
+            padding-top: 20px;
+            background-clip: padding-box;
+        }
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: transparent;
         }
         .dropdown:hover .dropdown-content {
             display: block;
@@ -582,7 +594,7 @@
             </div>
             <div class="address">
                 <i class="fas fa-map-marker-alt"></i> São Paulo, Brazil<br>
-                <i class="fas fa-envelope"></i> ariane.etimo@gmail.com<br>
+                <i class="fas fa-envelope"></i> <a href="mailto:ariane.etimo@gmail.com">ariane.etimo@gmail.com</a><br>
                 <i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/arianelesnyak/" target="_blank">/in/arianelesnyak/</a>
             </div>
         </div>
@@ -619,7 +631,7 @@
     });
 
     document.getElementById('contactBtn').addEventListener('click', () => {
-        alert("📧 ariane.etimo@gmail.com\n🔗 linkedin.com/in/arianelesnyak/\n✅ Available for Project Lyra - 20h/week");
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
     });
 
     // Animate bars when they come into view
@@ -628,7 +640,7 @@
         bars.forEach(bar => {
             const width = bar.getAttribute('data-width');
             const rect = bar.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 100 && !bar.style.width) {
+            if (rect.top < window.innerHeight - 10 && !bar.style.width) {
                 bar.style.width = width + '%';
             }
         });
